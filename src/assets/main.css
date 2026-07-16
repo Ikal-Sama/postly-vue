@@ -1,0 +1,140 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-claude-bg: #faf9f5;
+  --color-claude-surface: #ffffff;
+  --color-claude-muted: #f0eee6;
+  --color-claude-border: #e5e2d9;
+  --color-claude-text: #1a1915;
+  --color-claude-subtle: #6b6860;
+  --color-claude-faint: #9c9890;
+  --color-claude-accent: #c96442;
+  --color-claude-accent-hover: #b55738;
+  --color-claude-accent-soft: #f5ebe6;
+  --color-claude-danger: #b54a3c;
+  --color-claude-danger-soft: #f8ebe9;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, serif;
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-claude-bg text-claude-text font-sans;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(201, 100, 66, 0.06), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(201, 100, 66, 0.04), transparent);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    @apply bg-claude-accent-soft text-claude-text;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-sm font-medium text-claude-subtle px-3 py-2 rounded-lg
+      hover:text-claude-text hover:bg-claude-muted
+      transition-colors duration-150 ease-out;
+  }
+
+  .primary-btn {
+    @apply inline-flex items-center justify-center gap-2
+      bg-claude-accent text-white font-medium text-sm
+      px-5 py-2.5 rounded-xl
+      hover:bg-claude-accent-hover
+      active:scale-[0.98]
+      disabled:opacity-50 disabled:pointer-events-none
+      transition-all duration-150 ease-out
+      shadow-sm shadow-claude-accent/20 cursor-pointer;
+  }
+
+  .secondary-btn {
+    @apply inline-flex items-center justify-center gap-2
+      bg-claude-surface text-claude-text font-medium text-sm
+      px-5 py-2.5 rounded-xl border border-claude-border
+      hover:bg-claude-muted
+      active:scale-[0.98]
+      transition-all duration-150 ease-out cursor-pointer;
+  }
+
+  .danger-btn {
+    @apply inline-flex items-center justify-center gap-2
+      bg-claude-danger-soft text-claude-danger font-medium text-sm
+      px-5 py-2.5 rounded-xl border border-red-200/60
+      hover:bg-claude-danger hover:text-white hover:border-claude-danger
+      active:scale-[0.98]
+      transition-all duration-150 ease-out cursor-pointer;
+  }
+
+  .ghost-btn {
+    @apply inline-flex items-center gap-1.5 text-sm font-medium
+      text-claude-subtle hover:text-claude-accent
+      transition-colors duration-150 cursor-pointer;
+  }
+
+  .page-shell {
+    @apply max-w-3xl mx-auto px-5 sm:px-8 py-10 sm:py-14;
+  }
+
+  .page-title {
+    @apply font-display text-4xl sm:text-5xl text-claude-text tracking-tight;
+  }
+
+  .page-subtitle {
+    @apply text-claude-subtle text-base mt-2;
+  }
+
+  .form-card {
+    @apply bg-claude-surface border border-claude-border rounded-2xl
+      p-6 sm:p-8 space-y-5 shadow-sm;
+  }
+
+  .field {
+    @apply space-y-1.5;
+  }
+
+  .field-label {
+    @apply block text-sm font-medium text-claude-text;
+  }
+
+  .error {
+    @apply text-sm text-claude-danger mt-1.5;
+  }
+
+  .post-card {
+    @apply block bg-claude-surface border border-claude-border rounded-2xl
+      p-6 sm:p-7
+      hover:border-claude-accent/40 hover:shadow-md hover:shadow-claude-accent/5
+      transition-all duration-200 ease-out;
+  }
+
+  .empty-state {
+    @apply text-center py-16 px-6 bg-claude-surface border border-dashed
+      border-claude-border rounded-2xl;
+  }
+
+  .spinner {
+    @apply w-5 h-5 border-2 border-claude-border border-t-claude-accent
+      rounded-full animate-spin;
+  }
+
+  input,
+  textarea {
+    @apply w-full bg-claude-bg text-claude-text text-sm
+      px-3.5 py-2.5 rounded-xl
+      border border-claude-border
+      placeholder:text-claude-faint
+      outline-none
+      focus:border-claude-accent focus:ring-2 focus:ring-claude-accent/15
+      transition-all duration-150;
+  }
+
+  textarea {
+    @apply resize-y min-h-[140px] leading-relaxed;
+  }
+}

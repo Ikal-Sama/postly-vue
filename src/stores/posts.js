@@ -1,0 +1,88 @@
+import { defineStore } from 'pinia'
+import { useAuthStore } from './auth'
+import { apiFetch } from '@/lib/api'
+
+export const usePostsStore = defineStore('postsStore', {
+  state: () => {
+    return {
+      errors: {},
+    }
+  },
+
+  actions: {
+    //////////**************** Get all post */
+    async getAllPosts() {
+      const res = await apiFetch('/api/posts')
+      const data = await res.json()
+
+      return data
+    },
+
+    //////////**************** Get a post */
+    async getPost(post) {
+      const res = await apiFetch(`/api/posts/${post}`)
+      const data = await res.json()
+
+      return data.post
+    },
+
+    //////////**************** Create a post */
+    async createPost(formData) {
+      const res = await apiFetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (data.errors) {
+        this.errors = data.errors
+      } else {
+        this.router.push({ name: 'home' })
+      }
+    },
+
+    //////////**************** Delete a post */
+    async deletePost(post) {
+      const authStore = useAuthStore()
+      if (authStore.user.id === post.user_id) {
+        const res = await apiFetch(`/api/posts/${post.id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        const data = await res.json()
+        if (res.ok) {
+          this.router.push({ name: 'home' })
+        }
+        console.log(data)
+      }
+    },
+
+    //////////**************** Update a post */
+    async updatePost(post, formData) {
+      const authStore = useAuthStore()
+      if (authStore.user.id === post.user_id) {
+        const res = await apiFetch(`/api/posts/${post.id}`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(formData),
+        })
+
+        const data = await res.json()
+        if (data.errors) {
+          this.errors = data.errors
+        } else {
+          this.router.push({ name: 'home' })
+          this.errors = {}
+        }
+      }
+    },
+  },
+})
